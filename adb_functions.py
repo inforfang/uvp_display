@@ -1,6 +1,6 @@
 # ===========================================
 # adb_functions.py
-# version 1.0 
+# version 1.1 
 #
 # Core Ubiquiti phone class which uses adb to
 # connect to phone and perform different functions 
@@ -466,4 +466,9 @@ class uvp_phone(object):
         proc = subprocess.Popen(['adb', 'logcat'], stdout=logfile)
     
     
-    
+    def take_screenshot(self):
+        self._adb_run_shell_command ("adb shell screencap -p /sdcard/screen.png")
+        self._adb_run_shell_command ("adb pull /sdcard/screen.png")
+        self._adb_run_shell_command ("adb shell rm /sdcard/screen.png")
+        # Only in linux
+        #self._adb_run_shell_command ("adb shell screencap -p | perl -pe 's/\x0D\x0A/\x0A/g' > screen.png",True)

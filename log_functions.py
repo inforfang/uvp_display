@@ -26,11 +26,11 @@ def UVP_error(text):
     write_error_to_file (log)
     
 def write_log_to_file(text):
-    f = open ("/root/UVP/uvp.log",'a')
+    f = open ("uvp.log",'a')
     f.write(text+"\n")
     f.close()
 
 def write_error_to_file(text):
-    f = open ("/root/UVP/uvp-error.log",'a')
+    f = open ("uvp-error.log",'a')
     f.write(text+"\n")
     f.close()
