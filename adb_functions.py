@@ -467,8 +467,55 @@ class uvp_phone(object):
     
     
     def take_screenshot(self):
+        # First make sure adb is connected 
         self._adb_run_shell_command ("adb shell screencap -p /sdcard/screen.png")
         self._adb_run_shell_command ("adb pull /sdcard/screen.png")
         self._adb_run_shell_command ("adb shell rm /sdcard/screen.png")
-        # Only in linux
-        #self._adb_run_shell_command ("adb shell screencap -p | perl -pe 's/\x0D\x0A/\x0A/g' > screen.png",True)
+        
+    def is_DND_on(self):
+        # Before using this function make sure adb connected
+        import png
+        f = open('screen.png', 'rb')
+        r=png.Reader(file=f)
+        
+        w, h, pixels, metadata = r.read()
+        
+        for pix in pixels:
+            colour = [pix[0], pix[1], pix[2], pix[3]]
+            break
+        
+        f.close()
+        del r
+        
+        if colour == [255,0,0,255]:
+            return True
+        else :
+            return False
+    
+    def get_phone_model(self):
+        out =  self._adb_run_shell_command ("adb devices -l")
+        phone_model = out.split('model:')[1].split(' ')[0]
+        #print phone_model
+        if phone_model == "UVP":
+            return "UVP"
+        elif phone_model == "UVP_Executive":
+            return "UVP_Executive"
+    
+    def bring_uvp_main_screen (self):
+        out = self._adb_run_shell_command ("adb shell am start com.ubnt.uvp/com.ubnt.unifi.phone.MainActivity")
+        if "Warning" not in out:
+        	import time 
+        	time.sleep (10)
+    
+    def turn_off_dnd(self):
+        self.take_screenshot()
+        if self.is_DND_on() :
+            self.bring_uvp_main_screen()     
+            if self.get_phone_model() == "UVP_Executive":
+                self._adb_run_shell_command ("adb shell input tap 1000 30")
+                self._adb_run_shell_command ("adb shell input keyevent 66")
+                self._adb_run_shell_command ("adb shell input keyevent 20")
+                self._adb_run_shell_command ("adb shell input keyevent 66")
+            elif self.get_phone_model() == "UVP":
+                pass
+    

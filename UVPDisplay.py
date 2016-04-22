@@ -21,26 +21,32 @@ PHONE_IP = str(sys.argv[1])
 def take_screen_shot(ip):
     phone = uvp_phone()
     out = phone.set_Phone_IP (ip)
-    if out == 1: 
+    if out == 1:
+        print "Network Error"
         return 1    #in case of network error
     phone.adb_disconnect()
     out = phone.adb_connect()
     if out == 1:
+        print "ADB connection error"
         return 1    #in case of connection to phone error 
     out = phone.try_to_connect_if_offline()
     if out == 1:
+        print "Does't connect after 3 retries"
         return 1    #in case of can't connect to phone after retries error 
     
     phone.take_screenshot()
     
     phone.adb_disconnect()
+    print "Screenshot taken"
     del phone
     return 0
 
-
 # -------------------
 # Take an screenshot 
-take_screen_shot(PHONE_IP)
+if take_screen_shot(PHONE_IP) == 1:
+    print "Error"
+    exit()
+
 
 
 # -------------------
@@ -82,7 +88,6 @@ from PIL import Image, ImageTk
 #pip install image 
 
 root = Tk()
-
 
 #setting up a tkinter canvas with scrollbars
 frame = Frame(root, bd=2, relief=SUNKEN)
