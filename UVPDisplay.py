@@ -1,11 +1,16 @@
+# ===========================================
+# UVPDisplay.py
+# version 1.0 
 #
-# This app wants to display phone's screen and intarct with it 
+# Shows phone's screen and you can click and interact with it !!!
+# Note : Run in windows / uninstall PIL and Pillow / install Image (Which has both)
 #
+# Written by Sajjad Ziyaei amiri (04/22/2016)
+# ===========================================
 
 # -------------------
 # Imports 
-from adb_functions import *
-from log_functions import *
+from uvp_adb import *
 import sys
 import time
 
@@ -35,17 +40,10 @@ def take_screen_shot(ip):
         return 1    #in case of can't connect to phone after retries error 
     
     phone.take_screenshot()
-    
+    print "took screen"
     phone.adb_disconnect()
-    print "Screenshot taken"
     del phone
     return 0
-
-# -------------------
-# Take an screenshot 
-if take_screen_shot(PHONE_IP) == 1:
-    print "Error"
-    exit()
 
 
 
@@ -66,7 +64,7 @@ def adb_click(event):
         return 1    #in case of can't connect to phone after retries error 
     
     phone._adb_run_shell_command ("adb shell input tap "+str(event.x)+" "+str(event.y))
-    
+    print str(event.x), str(event.y)
     phone.adb_disconnect()
     del phone
     #time.sleep (4)
@@ -79,9 +77,20 @@ def adb_click(event):
     canvas.create_image(0,0,image=img,anchor="nw")
     canvas.config(scrollregion=canvas.bbox(ALL))
     return 0
+  
+  
+  
+
+# -------------------
+# Take an screenshot 
+if take_screen_shot(PHONE_IP) == 1:
+    print "Error"
+    exit()
+
     
 # -------------------
 # Display image
+print "App Started"
 from Tkinter import *
 from PIL import Image, ImageTk
 #pip remove pillow
