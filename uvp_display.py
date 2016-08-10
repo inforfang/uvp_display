@@ -1,11 +1,9 @@
 # ===========================================
 # UVPDisplay.py
-# version 1.0 
 #
 # Shows phone's screen and you can click and interact with it !!!
 # Note : Run in windows / uninstall PIL and Pillow / install Image (Which has both)
 #
-# Written by Sajjad Ziyaei amiri (04/22/2016)
 # ===========================================
 
 # -------------------

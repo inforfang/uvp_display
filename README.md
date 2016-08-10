@@ -14,8 +14,8 @@ python uvp_display.py 1.2.3.4
 The last part is IP address 
 
 ## Requirements : 
-You need to install uvp_adb first for this to work. It also work in both windows and linux. I 
-mostly tested it in Windows envoirement but I tried with Lubuntu distro and it worked fine. 
+This script only tested to run on windows
 
-For linux you need to have graphical interface to use it. It uses PIL and Tkinter libraries too 
-for displaying the shot. 
+Uninstall PIL and Pillow libraries -> install Image (Which has both)
+Install adb 
+Install uvp_adb library 
