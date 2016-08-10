@@ -8,9 +8,9 @@ Since it is using screenshots it is slow but it can be handy when you want to do
 assistance. 
 
 ## Usage : 
-'''shell
+```shell
 python uvp_display.py 1.2.3.4
-'''
+```
 The last part is IP address 
 
 ## Requirements : 
