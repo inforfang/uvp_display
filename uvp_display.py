@@ -14,6 +14,12 @@ from uvp_adb import *
 import sys
 import time
 
+logg = uvp_log()
+logg.set_show_on_screen(True)
+logg.set_write_to_file(False)
+logg.set_tag ("DISPLAY")
+logg.set_log_filename ("uvp_display.log")
+
 # -------------------
 # take ip 
 if len(sys.argv) < 2 :
@@ -25,27 +31,29 @@ PHONE_IP = str(sys.argv[1])
 
 def take_screen_shot(ip):
     phone = uvp_phone()
+
+    phone.uvp_log.set_show_on_screen(True)
+    #phone.uvp_log.set_log_filename = "uvp_display.log"
+
     out = phone.set_Phone_IP (ip)
     if out == 1:
-        print "Network Error"
+        phone.uvp_log.error ("Network Error")
         return 1    #in case of network error
     phone.adb_disconnect()
     out = phone.adb_connect()
     if out == 1:
-        print "ADB connection error"
+        phone.uvp_log.error ("ADB connection error")
         return 1    #in case of connection to phone error 
     out = phone.try_to_connect_if_offline()
     if out == 1:
-        print "Does't connect after 3 retries"
+        phone.uvp_log.error ("Does't connect after 3 retries")
         return 1    #in case of can't connect to phone after retries error 
     
     phone.take_screenshot()
-    print "took screen"
+    logg.info ("Screenshot has been taken")
     phone.adb_disconnect()
     del phone
     return 0
-
-
 
 # -------------------
 # Do the command on phone
@@ -63,8 +71,8 @@ def adb_click(event):
     if out == 1:
         return 1    #in case of can't connect to phone after retries error 
     
-    phone._adb_run_shell_command ("adb shell input tap "+str(event.x)+" "+str(event.y))
-    print str(event.x), str(event.y)
+    phone._adb_run_shell_command ("adb shell input tap "+str(event.x)+" "+str(event.y), True)
+    logg.info ("Click coordinates : "+ str(event.x)+" , "+str(event.y))
     phone.adb_disconnect()
     del phone
     #time.sleep (4)
@@ -90,7 +98,7 @@ if take_screen_shot(PHONE_IP) == 1:
     
 # -------------------
 # Display image
-print "App Started"
+logg.info ("uvp_display app started!")
 from Tkinter import *
 from PIL import Image, ImageTk
 #pip remove pillow
