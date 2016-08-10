@@ -11,11 +11,10 @@ assistance.
 ```shell
 python uvp_display.py 1.2.3.4
 ```
-The last part is IP address 
+* The last part is IP address 
 
 ## Requirements : 
-This script only tested to run on windows
-
-Uninstall PIL and Pillow libraries -> install Image (Which has both)
-Install adb 
-Install uvp_adb library 
+* This script only tested to run on windows
+* Uninstall PIL and Pillow libraries -> install Image (Which has both)
+* Install adb 
+* Install uvp_adb library 
